@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Foreign Cutz | Elite Grooming Atelier</title>
-    <!-- Favicon link added below -->
-    <link rel="icon" type="image/png" href="https://imgur.com/qU8T3T8.png">
+    <meta name="description" content="Foreign Cutz is the premier barbershop in Paterson, NJ. Specializing in precision fades, modern haircuts, and expert beard grooming by Alex The Barber. Book your elite grooming session today.">
+    <meta name="keywords" content="Barbershop Paterson NJ, Best Barbers in Paterson, Men's Haircuts Paterson, Precision Fades NJ, Alex The Barber, Foreign Cutz, Beard Trimming Paterson">
+    <title>Foreign Cutz | Top-Rated Barbershop in Paterson, NJ | Elite Grooming</title>
+    <!-- Updated Favicon -->
+    <link rel="icon" type="image/png" href="https://imgur.com/7BK6DgP.png">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -32,7 +34,6 @@
 
         .font-luxury { font-family: 'Cinzel', serif; }
 
-        /* Premium Text Effects */
         .gold-text {
             background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
             -webkit-background-clip: text;
@@ -46,7 +47,6 @@
                         linear-gradient(135deg, #BF953F, #FCF6BA, #AA771C) border-box;
         }
 
-        /* Luxury Background */
         .grain-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -64,14 +64,12 @@
             background-attachment: fixed;
         }
 
-        /* Nav Effects */
         .nav-blur {
             backdrop-filter: blur(20px);
             background: rgba(10, 10, 10, 0.8);
             border-bottom: 1px solid rgba(212, 175, 55, 0.15);
         }
 
-        /* Button - High End */
         .btn-luxury {
             position: relative;
             background: transparent;
@@ -81,6 +79,9 @@
             letter-spacing: 0.2em;
             text-transform: uppercase;
             font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .btn-luxury:hover {
@@ -90,7 +91,6 @@
             transform: translateY(-2px);
         }
 
-        /* Card Styling */
         .glass-card {
             background: var(--glass);
             border: 1px solid rgba(212, 175, 55, 0.1);
@@ -105,12 +105,76 @@
 
         .view-hidden { display: none !important; }
 
-        /* Animated Lines */
         .scroll-line {
             width: 1px;
             height: 100px;
             background: linear-gradient(to bottom, var(--gold-primary), transparent);
             margin: 0 auto;
+        }
+
+        .hero-nav-pill {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 999px;
+            padding: 8px 24px;
+            display: inline-flex;
+            gap: 24px;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .hero-nav-pill:hover {
+            border-color: var(--gold-primary);
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .hero-nav-link {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: rgba(255, 255, 255, 0.6);
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .hero-nav-link:hover {
+            color: var(--gold-primary);
+        }
+
+        /* Overlay Menu Styles */
+        #mobile-menu {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 10, 0.98);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transform: translateX(100%);
+            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        #mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .menu-link {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            margin: 1rem 0;
+            color: white;
+            transition: all 0.3s ease;
+            letter-spacing: 0.1em;
+        }
+
+        .menu-link:hover {
+            color: var(--gold-primary);
+            letter-spacing: 0.2em;
         }
     </style>
 </head>
@@ -122,36 +186,64 @@
     <nav class="fixed w-full z-50 nav-blur px-8 py-5">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="cursor-pointer flex items-center gap-4" onclick="showView('home')">
-                <img src="https://imgur.com/qU8T3T8.png" alt="Foreign Cutz" class="h-12 w-auto">
+                <img src="https://imgur.com/7BK6DgP.png" alt="Foreign Cutz Logo" class="h-12 w-auto">
                 <div class="hidden sm:block">
                     <div class="font-luxury text-xl tracking-[0.2em] gold-text">FOREIGN CUTZ</div>
-                    <!-- Updated text as requested -->
                     <div class="text-[9px] tracking-[0.4em] uppercase opacity-70 font-semibold text-white mt-1">Alex The Barber</div>
                 </div>
             </div>
             
-            <div class="hidden lg:flex space-x-12 text-[10px] uppercase tracking-[0.4em] font-medium opacity-70">
-                <button onclick="showView('home')" class="hover:text-[#d4af37] hover:opacity-100 transition">Atelier</button>
-                <button onclick="showView('services')" class="hover:text-[#d4af37] hover:opacity-100 transition">Services</button>
-                <a href="#work" class="hover:text-[#d4af37] hover:opacity-100 transition">Gallery</a>
-                <a href="#contact" class="hover:text-[#d4af37] hover:opacity-100 transition">Location</a>
+            <div class="flex items-center gap-8">
+                <a href="https://booksy.com/en-us/428890_alex-the-barber-el-foreign-cutz-r_barber-shop_28782_paterson" 
+                   target="_blank"
+                   class="hidden md:inline-flex btn-luxury px-8 py-3 text-[10px] rounded-none">
+                    Book Appointment
+                </a>
+                
+                <!-- Hamburger Trigger -->
+                <button id="menu-trigger" class="flex flex-col gap-2 justify-center items-end group">
+                    <span class="w-8 h-[1px] bg-white group-hover:bg-[#d4af37] transition-all"></span>
+                    <span class="w-5 h-[1px] bg-white group-hover:w-8 group-hover:bg-[#d4af37] transition-all"></span>
+                    <span class="w-8 h-[1px] bg-white group-hover:bg-[#d4af37] transition-all"></span>
+                </button>
             </div>
-            
-            <a href="https://booksy.com/en-us/428890_alex-the-barber-el-foreign-cutz-r_barber-shop_28782_paterson" 
-               target="_blank"
-               class="btn-luxury px-8 py-3 text-[10px] rounded-none">
-                Reserve
-            </a>
         </div>
     </nav>
 
+    <!-- Overlay Navigation Menu -->
+    <div id="mobile-menu">
+        <button id="menu-close" class="absolute top-8 right-8 text-white/50 hover:text-white transition">
+            <i data-lucide="x" class="w-10 h-10"></i>
+        </button>
+        <button onclick="navigate('home')" class="menu-link">Home</button>
+        <button onclick="navigate('services')" class="menu-link">Service Menu</button>
+        <button onclick="navigate('#about')" class="menu-link">About Us</button>
+        <button onclick="navigate('#faq')" class="menu-link">Shop Info</button>
+        <button onclick="navigate('#contact')" class="menu-link">Contact</button>
+        
+        <div class="mt-12 flex flex-col items-center gap-4">
+             <a href="https://booksy.com/en-us/428890_alex-the-barber-el-foreign-cutz-r_barber-shop_28782_paterson" 
+               target="_blank"
+               class="btn-luxury px-12 py-4 text-xs">Reserve on Booksy</a>
+             <p class="text-[9px] tracking-[0.5em] text-white/30 uppercase mt-4">Alex The Barber | Paterson NJ</p>
+        </div>
+    </div>
+
     <!-- HOME VIEW -->
     <main id="home-view">
-        <!-- Hero Section with Shop Background -->
+        <!-- Hero Section -->
         <section class="relative min-h-screen flex flex-col justify-center items-center pt-32 px-6 text-center hero-bg">
             <div id="hero-content" class="max-w-4xl mx-auto relative z-20">
-                <div class="inline-block px-4 py-1 mb-8 border-l border-r border-white/20">
-                    <span class="text-[10px] font-medium tracking-[0.6em] uppercase text-white">Alex The Barber</span>
+                
+                <!-- Hero Header Navigation Pill -->
+                <div class="hero-nav-pill">
+                    <span onclick="showView('services')" class="hero-nav-link">Service Rates</span>
+                    <a href="#about" class="hero-nav-link">About</a>
+                    <a href="#contact" class="hero-nav-link">Paterson Location</a>
+                </div>
+
+                <div class="block mb-8">
+                    <span class="text-[10px] font-medium tracking-[0.6em] uppercase text-white/40">Premier Barbering in Paterson, New Jersey</span>
                 </div>
                 
                 <h1 class="text-5xl md:text-8xl font-luxury mb-8 leading-tight">
@@ -159,68 +251,81 @@
                 </h1>
                 
                 <p class="text-gray-200 text-sm md:text-lg mb-12 max-w-2xl mx-auto leading-loose tracking-wide font-light">
-                    Where contemporary precision meets the timeless art of the blade. 
-                    Foreign Cutz is not a barbershop—it is a private sanctuary for the modern gentleman.
+                    Experience the best precision fades and modern men's haircuts in NJ. 
+                    Foreign Cutz is Paterson's elite barbershop, where Alex The Barber blends contemporary style with classic precision.
                 </p>
                 
                 <div class="flex flex-col sm:flex-row justify-center gap-6">
-                    <a href="https://booksy.com/en-us/428890_alex-the-barber-el-foreign-cutz-r_barber-shop_28782_paterson" class="btn-luxury px-12 py-5 text-sm">
-                        Request Appointment
+                    <a href="https://booksy.com/en-us/428890_alex-the-barber-el-foreign-cutz-r_barber-shop_28782_paterson" 
+                       target="_blank"
+                       class="btn-luxury px-12 py-5 text-sm">
+                        Book a Fresh Cut
                     </a>
                     <button onclick="showView('services')" class="px-12 py-5 text-sm uppercase tracking-[0.3em] border border-white/20 hover:bg-white/10 transition backdrop-blur-sm">
-                        The Menu
+                        View Service Menu
                     </button>
                 </div>
             </div>
             
             <div class="mt-20 opacity-30 relative z-20">
                 <div class="scroll-line"></div>
-                <p class="text-[9px] uppercase tracking-[1em] mt-4">Scroll</p>
+                <p class="text-[9px] uppercase tracking-[1em] mt-4">Discover More</p>
             </div>
         </section>
 
-        <!-- Visual Statement -->
-        <section class="py-24 px-6 overflow-hidden bg-[#0A0A0A]">
+        <!-- About Section -->
+        <section id="about" class="py-24 px-6 overflow-hidden bg-[#0A0A0A]">
             <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-1 px-4">
                 <div class="relative h-[600px] overflow-hidden gold-border">
                     <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=80&w=1200" 
+                         alt="Foreign Cutz Barbershop Interior Paterson NJ"
                          class="w-full h-full object-cover scale-110 hover:scale-100 transition-transform duration-1000">
                 </div>
                 <div class="bg-white/[0.02] p-12 md:p-24 flex flex-col justify-center border border-white/5">
-                    <h2 class="text-xs font-luxury tracking-[0.5em] gold-text mb-8 uppercase">The Philosophy</h2>
-                    <h3 class="text-3xl md:text-5xl font-luxury mb-8 leading-snug">The Detail is <br> The Standard.</h3>
-                    <p class="text-gray-500 leading-relaxed font-light text-lg">
-                        Every session at Foreign Cutz is a bespoke architectural process. We analyze your structure, your lifestyle, and your aesthetic goals to craft a silhouette that is uniquely yours.
+                    <h2 class="text-xs font-luxury tracking-[0.5em] gold-text mb-8 uppercase">Our Story</h2>
+                    <h3 class="text-3xl md:text-5xl font-luxury mb-8 leading-snug">The Best Barbershop <br> in Paterson, NJ.</h3>
+                    <p class="text-gray-400 leading-relaxed font-light text-lg mb-6">
+                        Located at the iconic 232 Vreeland Avenue in Paterson, Foreign Cutz is renowned for high-quality grooming with a signature trendy touch. 
+                    </p>
+                    <p class="text-gray-400 leading-relaxed font-light text-md mb-8">
+                        We specialize in professional men's grooming, offering a range of services from precision fades to artisan beard shaping. Our master barbers are experts at translating global trends into wearable, stylish looks for our diverse New Jersey clientele.
+                    </p>
+                    <p class="text-gray-500 leading-relaxed font-light text-md italic border-l-2 border-[#d4af37] pl-6">
+                        "Voted a top local shop for precision and style—where every cut is a masterpiece of modern barbering."
                     </p>
                 </div>
             </div>
         </section>
 
-        <!-- Gallery Section -->
-        <section id="work" class="py-32 px-6 bg-[#0A0A0A]">
-            <div class="max-w-7xl mx-auto">
-                <div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
-                    <div>
-                        <h2 class="text-[#d4af37] text-[10px] font-bold tracking-[0.5em] mb-4 uppercase opacity-60">Visual Archive</h2>
-                        <h3 class="text-4xl md:text-6xl font-luxury tracking-tight">THE GALLERY</h3>
-                    </div>
-                    <a href="https://www.instagram.com/elforeigncutz/" target="_blank" class="text-[10px] uppercase tracking-[0.3em] flex items-center gap-3 border-b border-[#d4af37]/30 pb-2 hover:border-[#d4af37] transition">
-                        Follow @ForeignCutz <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
-                    </a>
+        <!-- FAQ Section -->
+        <section id="faq" class="py-32 px-6 bg-black">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-20">
+                    <h2 class="text-[#d4af37] text-[10px] font-bold tracking-[0.5em] mb-4 uppercase">Shop Policies</h2>
+                    <h3 class="text-4xl md:text-6xl font-luxury">PLAN YOUR VISIT</h3>
                 </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="md:col-span-2 group relative overflow-hidden h-[500px] gold-border">
-                         <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?auto=format&fit=crop&q=80&w=1200" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                
+                <div class="space-y-6">
+                    <div class="glass-card p-8 group">
+                        <h4 class="text-white font-luxury text-lg mb-4 flex justify-between items-center">
+                            How early should I arrive for my haircut?
+                            <i data-lucide="info" class="w-5 h-5 gold-text opacity-50"></i>
+                        </h4>
+                        <p class="text-gray-500 text-sm leading-relaxed">To ensure you get the full elite barbering experience, please arrive 5-10 minutes early. We pride ourselves on punctuality and quality for every client in our Paterson shop.</p>
                     </div>
-                    <div class="group relative overflow-hidden h-[500px] border border-white/10">
-                         <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                    <div class="glass-card p-8 group">
+                        <h4 class="text-white font-luxury text-lg mb-4 flex justify-between items-center">
+                            Do you accept walk-ins in Paterson?
+                            <i data-lucide="help-circle" class="w-5 h-5 gold-text opacity-50"></i>
+                        </h4>
+                        <p class="text-gray-500 text-sm leading-relaxed">While we recommend booking via Booksy to guarantee your spot with Alex The Barber, we do accommodate walk-ins when our schedule permits. Priority is always given to reserved sessions.</p>
                     </div>
-                    <div class="group relative overflow-hidden h-[400px] border border-white/10">
-                         <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&q=80&w=800" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                    </div>
-                    <div class="md:col-span-2 group relative overflow-hidden h-[400px] gold-border">
-                         <img src="https://images.unsplash.com/photo-1622286334808-5c758162b992?auto=format&fit=crop&q=80&w=1200" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                    <div class="glass-card p-8 group">
+                        <h4 class="text-white font-luxury text-lg mb-4 flex justify-between items-center">
+                            What is your booking policy?
+                            <i data-lucide="clock" class="w-5 h-5 gold-text opacity-50"></i>
+                        </h4>
+                        <p class="text-gray-500 text-sm leading-relaxed">We use Booksy for seamless scheduling. Please provide 24-hour notice for cancellations to help us serve all our Paterson clients efficiently.</p>
                     </div>
                 </div>
             </div>
@@ -230,55 +335,102 @@
     <!-- SERVICES VIEW -->
     <main id="services-view" class="view-hidden">
         <section class="pt-40 pb-32 px-6">
-            <div class="max-w-4xl mx-auto">
+            <div class="max-w-6xl mx-auto">
                 <div class="mb-24 text-center">
                     <button onclick="showView('home')" class="text-[#d4af37] text-[9px] font-bold uppercase tracking-[0.4em] inline-flex items-center space-x-3 mb-12 opacity-60 hover:opacity-100 transition">
                         <i data-lucide="arrow-left" class="w-4 h-4"></i>
-                        <span>Return to Atelier</span>
+                        <span>Return to Main Site</span>
                     </button>
-                    <h2 class="text-[10px] font-luxury tracking-[0.6em] text-[#d4af37] mb-6 uppercase">Exclusive Menu</h2>
-                    <h1 class="text-5xl md:text-7xl font-luxury">THE SERVICES</h1>
+                    <h2 class="text-[10px] font-luxury tracking-[0.6em] text-[#d4af37] mb-6 uppercase">Haircuts & Grooming</h2>
+                    <h1 class="text-5xl md:text-7xl font-luxury">BARBER SERVICES</h1>
+                    <p class="text-gray-400 mt-8 max-w-2xl mx-auto text-sm leading-relaxed font-light">
+                        Explore our comprehensive menu of grooming services in Paterson, NJ. From precision skin fades to professional beard shaping, Alex The Barber delivers elite results tailored to your lifestyle.
+                    </p>
                 </div>
 
-                <div class="space-y-12">
-                    <!-- Master Haircut -->
-                    <div class="glass-card p-12 flex flex-col md:flex-row justify-between items-center gap-10">
-                        <div class="text-center md:text-left">
-                            <h4 class="text-2xl font-luxury mb-4">Master Haircut</h4>
-                            <p class="text-gray-500 text-sm max-w-sm leading-relaxed tracking-wide font-light">Custom tailored silhouette. Detailed fade, taper, or shear work finished with a precision razor line-up.</p>
+                <div class="grid md:grid-cols-2 gap-10">
+                    <!-- Column 1 -->
+                    <div class="space-y-10">
+                        <!-- Haircuts -->
+                        <div class="glass-card p-10">
+                            <div class="flex justify-between items-start mb-6">
+                                <h3 class="font-luxury text-2xl gold-text">Precision Haircuts</h3>
+                                <span class="text-xs tracking-widest text-white/40 uppercase">From $30</span>
+                            </div>
+                            <p class="text-gray-400 text-xs leading-relaxed mb-4">
+                                Our signature haircut service includes skin fades, tapers, and modern styles. As the best barbershop in Paterson, NJ, we focus on symmetry and detail to ensure your look lasts longer and grows out perfectly.
+                            </p>
                         </div>
-                        <div class="flex flex-col items-center md:items-end">
-                            <span class="text-3xl font-luxury gold-text mb-6">$30</span>
-                            <a href="https://booksy.com/en-us/428890_alex-the-barber-el-foreign-cutz-r_barber-shop_28782_paterson" class="btn-luxury px-10 py-3 text-[9px]">Book</a>
+
+                        <!-- Beard Trims -->
+                        <div class="glass-card p-10">
+                            <div class="flex justify-between items-start mb-6">
+                                <h3 class="font-luxury text-2xl gold-text">Beard Shaping & Lineup</h3>
+                                <span class="text-xs tracking-widest text-white/40 uppercase">From $20</span>
+                            </div>
+                            <p class="text-gray-400 text-xs leading-relaxed mb-4">
+                                Professional beard grooming for the modern gentleman. We use precision blades and trimmers to sculpt your beard, enhancing your jawline and providing a sharp, clean finish that complements your haircut.
+                            </p>
+                        </div>
+
+                        <!-- Kids & Family -->
+                        <div class="glass-card p-10">
+                            <div class="flex justify-between items-start mb-6">
+                                <h3 class="font-luxury text-2xl gold-text">Youth & Student Cuts</h3>
+                                <span class="text-xs tracking-widest text-white/40 uppercase">From $25</span>
+                            </div>
+                            <p class="text-gray-400 text-xs leading-relaxed mb-4">
+                                High-quality haircuts for the younger generation. We offer trendy styles and comfortable grooming for kids and students, ensuring they walk out with confidence.
+                            </p>
                         </div>
                     </div>
 
-                    <!-- Signature Service -->
-                    <div class="p-12 gold-border bg-white/[0.03] flex flex-col md:flex-row justify-between items-center gap-10 relative overflow-hidden">
-                        <div class="absolute top-0 right-0 p-4">
-                            <span class="text-[8px] font-bold tracking-widest uppercase opacity-30 gold-text">Signature Service</span>
+                    <!-- Column 2 -->
+                    <div class="space-y-10">
+                        <!-- Line-Ups -->
+                        <div class="glass-card p-10">
+                            <div class="flex justify-between items-start mb-6">
+                                <h3 class="font-luxury text-2xl gold-text">Edge-Up & Detail</h3>
+                                <span class="text-xs tracking-widest text-white/40 uppercase">From $15</span>
+                            </div>
+                            <p class="text-gray-400 text-xs leading-relaxed mb-4">
+                                Maintain your sharpness between full haircut sessions. Our lineup service focuses on the hairline and neck for a crisp, fresh appearance.
+                            </p>
                         </div>
-                        <div class="text-center md:text-left">
-                            <h4 class="text-2xl font-luxury mb-4">The Atelier Experience</h4>
-                            <p class="text-gray-400 text-sm max-w-sm leading-relaxed tracking-wide font-light italic">Complete metamorphosis. Sculpted beard, facial compression, and the signature triple-steamed Hot Towel ritual.</p>
-                        </div>
-                        <div class="flex flex-col items-center md:items-end">
-                            <span class="text-3xl font-luxury gold-text mb-6">$40</span>
-                            <a href="https://booksy.com/en-us/428890_alex-the-barber-el-foreign-cutz-r_barber-shop_28782_paterson" class="btn-luxury px-10 py-3 text-[9px]">Book</a>
-                        </div>
-                    </div>
 
-                    <!-- House Call -->
-                    <div class="glass-card p-12 flex flex-col md:flex-row justify-between items-center gap-10">
-                        <div class="text-center md:text-left">
-                            <h4 class="text-2xl font-luxury mb-4">Elite House Call</h4>
-                            <p class="text-gray-500 text-sm max-w-sm leading-relaxed tracking-wide font-light">The Foreign Cutz experience transported to your residence or private suite. Full mobile luxury kit.</p>
+                        <!-- Specialty Styles -->
+                        <div class="gold-border bg-white/[0.03] p-10">
+                            <div class="flex justify-between items-start mb-6">
+                                <h3 class="font-luxury text-2xl gold-text">Custom Hair Designs</h3>
+                                <span class="text-xs tracking-widest text-white/40 uppercase">Inquire</span>
+                            </div>
+                            <p class="text-gray-400 text-xs leading-relaxed mb-4">
+                                Elevate your style with custom hair art and patterns. Our Paterson barbers are experts in creative designs and advanced artistic detailing.
+                            </p>
                         </div>
-                        <div class="flex flex-col items-center md:items-end">
-                            <span class="text-3xl font-luxury gold-text mb-6">$175</span>
-                            <a href="https://booksy.com/en-us/428890_alex-the-barber-el-foreign-cutz-r_barber-shop_28782_paterson" class="btn-luxury px-10 py-3 text-[9px]">Book</a>
+
+                        <!-- Why Us -->
+                        <div class="bg-[#d4af37]/5 p-10 border border-[#d4af37]/20">
+                            <h3 class="font-luxury text-2xl gold-text mb-6">The Paterson Standard</h3>
+                            <ul class="space-y-4">
+                                <li class="flex items-center gap-3 text-xs tracking-wider text-white/70">
+                                    <i data-lucide="check" class="w-4 h-4 gold-text"></i> Licensed NJ Master Barbers
+                                </li>
+                                <li class="flex items-center gap-3 text-xs tracking-wider text-white/70">
+                                    <i data-lucide="check" class="w-4 h-4 gold-text"></i> Top-Rated Paterson Barbershop
+                                </li>
+                                <li class="flex items-center gap-3 text-xs tracking-wider text-white/70">
+                                    <i data-lucide="check" class="w-4 h-4 gold-text"></i> Luxury Men's Grooming Products
+                                </li>
+                            </ul>
                         </div>
                     </div>
+                </div>
+
+                <div class="mt-20 text-center">
+                    <a href="https://booksy.com/en-us/428890_alex-the-barber-el-foreign-cutz-r_barber-shop_28782_paterson" 
+                       target="_blank"
+                       class="btn-luxury px-16 py-6 inline-block">Book Paterson's Best Cut</a>
                 </div>
             </div>
         </section>
@@ -289,14 +441,14 @@
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-20 mb-32">
                 <div class="lg:col-span-2">
                     <div class="flex items-center gap-6 mb-10">
-                        <img src="https://imgur.com/qU8T3T8.png" alt="Logo" class="h-20 w-auto">
+                        <img src="https://imgur.com/7BK6DgP.png" alt="Foreign Cutz Logo" class="h-20 w-auto">
                         <div>
                             <div class="font-luxury text-3xl gold-text tracking-[0.1em]">FOREIGN CUTZ</div>
-                            <div class="text-[9px] tracking-[0.6em] uppercase opacity-30">By Alex The Barber</div>
+                            <div class="text-[9px] tracking-[0.6em] uppercase opacity-30">Alex The Barber | Paterson NJ</div>
                         </div>
                     </div>
                     <p class="text-gray-500 max-w-sm mb-12 leading-loose text-sm font-light italic">
-                        "Elegance is not about being noticed, it's about being remembered."
+                        "Redefining the standard of men's grooming in Paterson and Northern New Jersey."
                     </p>
                     <a href="tel:9177140577" class="inline-flex items-center space-x-4 text-white hover:text-[#d4af37] transition group">
                         <div class="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:border-[#d4af37]">
@@ -307,13 +459,16 @@
                 </div>
                 
                 <div>
-                    <h4 class="font-luxury text-xs font-bold mb-10 uppercase tracking-[0.4em] gold-text">The Atelier</h4>
+                    <h4 class="font-luxury text-xs font-bold mb-10 uppercase tracking-[0.4em] gold-text">Find Us</h4>
                     <p class="text-gray-400 mb-2 font-medium text-white tracking-widest">232 VREELAND AVENUE</p>
                     <p class="text-gray-500 uppercase text-[10px] tracking-[0.2em]">PATERSON, NJ 07407</p>
+                    <div class="mt-6 opacity-40 grayscale hover:grayscale-0 transition duration-500">
+                        <p class="text-[9px] text-gray-400 uppercase tracking-widest">Top-Rated Barbershop near Route 20</p>
+                    </div>
                 </div>
 
                 <div>
-                    <h4 class="font-luxury text-xs font-bold mb-10 uppercase tracking-[0.4em] gold-text">Hours</h4>
+                    <h4 class="font-luxury text-xs font-bold mb-10 uppercase tracking-[0.4em] gold-text">Shop Hours</h4>
                     <ul class="space-y-4 text-[10px] text-gray-500 tracking-[0.2em]">
                         <li class="flex justify-between border-b border-white/5 pb-2"><span>TUE - WED</span> <span class="text-white">15:00 - 20:00</span></li>
                         <li class="flex justify-between border-b border-white/5 pb-2"><span>THU</span> <span class="text-white">14:00 - 20:30</span></li>
@@ -324,11 +479,10 @@
             </div>
             
             <div class="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 opacity-30 text-[9px] uppercase tracking-[0.4em]">
-                <p>&copy; 2024 Foreign Cutz Atelier. All Rights Reserved.</p>
+                <p>&copy; 2024 Foreign Cutz Paterson. All Rights Reserved. Haircuts by Alex The Barber.</p>
                 <div class="flex gap-8">
-                    <span>Privacy</span>
-                    <span>Terms</span>
-                    <span>Experience</span>
+                    <span>Privacy Policy</span>
+                    <span>Service Terms</span>
                 </div>
             </div>
         </div>
@@ -337,6 +491,37 @@
     <script>
         lucide.createIcons();
         gsap.registerPlugin(ScrollTrigger);
+
+        const menuTrigger = document.getElementById('menu-trigger');
+        const menuClose = document.getElementById('menu-close');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuTrigger.addEventListener('click', () => {
+            mobileMenu.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        menuClose.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        function navigate(target) {
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            
+            if (target === 'home') {
+                showView('home');
+            } else if (target === 'services') {
+                showView('services');
+            } else {
+                showView('home');
+                setTimeout(() => {
+                    const el = document.querySelector(target);
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }, 500);
+            }
+        }
 
         function showView(viewName) {
             const home = document.getElementById('home-view');
@@ -360,7 +545,8 @@
 
         window.onload = () => {
             const tl = gsap.timeline();
-            tl.from("#hero-content", { y: 30, opacity: 0, duration: 1.5, ease: "power4.out" });
+            tl.from(".hero-nav-pill", { y: -20, opacity: 0, duration: 1, delay: 0.5, ease: "power3.out" });
+            tl.from("#hero-content h1, #hero-content p, #hero-content .flex", { y: 30, opacity: 0, duration: 1.2, stagger: 0.2, ease: "power4.out" }, "-=0.5");
             
             gsap.utils.toArray('section').forEach(section => {
                 gsap.from(section, {
