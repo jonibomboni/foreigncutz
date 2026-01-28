@@ -165,7 +165,7 @@
             position: absolute;
             inset: 0;
             opacity: 0;
-            transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
             z-index: 1;
         }
         
@@ -179,6 +179,52 @@
             height: 100%;
             object-fit: cover;
             filter: brightness(0.7) contrast(1.1);
+        }
+
+        /* Carousel Navigation */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            background: rgba(10, 10, 10, 0.5);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            color: white;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+
+        .carousel-btn:hover {
+            background: var(--gold-primary);
+            color: black;
+            border-color: var(--gold-primary);
+        }
+
+        .carousel-btn-prev { left: 10px; }
+        .carousel-btn-next { right: 10px; }
+
+        /* Timer Bar */
+        .carousel-timer-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 10;
+        }
+
+        .carousel-timer-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--gold-primary);
+            box-shadow: 0 0 10px var(--gold-primary);
         }
 
         .about-image-container::after {
@@ -347,7 +393,20 @@
         <!-- Carousel / About Section -->
         <section id="about" class="py-16 md:py-24 px-4 md:px-6 overflow-hidden bg-[#0A0A0A]">
             <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-4 md:gap-1">
-                <div class="relative h-[500px] md:h-[650px] overflow-hidden gold-border about-image-container">
+                <div class="relative h-[500px] md:h-[650px] overflow-hidden gold-border about-image-container group">
+                    <!-- Navigation Buttons -->
+                    <button id="carousel-prev" class="carousel-btn carousel-btn-prev">
+                        <i data-lucide="chevron-left"></i>
+                    </button>
+                    <button id="carousel-next" class="carousel-btn carousel-btn-next">
+                        <i data-lucide="chevron-right"></i>
+                    </button>
+                    
+                    <!-- Timer Bar -->
+                    <div class="carousel-timer-container">
+                        <div id="carousel-timer-bar" class="carousel-timer-bar"></div>
+                    </div>
+
                     <!-- Carousel Slides -->
                     <div class="carousel-slide active"><img src="https://imgur.com/Gb7tzVA.png" alt="Portfolio 1" class="carousel-image"></div>
                     <div class="carousel-slide"><img src="https://imgur.com/MSFLAgk.png" alt="Portfolio 2" class="carousel-image"></div>
@@ -610,12 +669,13 @@
                     <div class="gold-border p-1 h-[300px] md:h-full relative group">
                         <div class="map-container w-full h-full overflow-hidden">
                             <iframe 
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3016.9696985459345!2d-74.14811362343808!3d40.872517871370215!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2fe29d6683833%3A0xc479e001851214e!2s232%20Vreeland%20Ave%2C%20Paterson%2C%20NJ%2007504!5e0!3m2!1sen!2sus!4v1709123456789!5m2!1sen!2sus" 
+                                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12061.837962691048!2d-74.140213!3d40.90567!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2fde56e1d066f%3A0xc3d0e65d51d46aeb!2zRm9yZWlnbiBDdXR6IPCfkojwn5KH8J-Pu-KAjeKZgu-4jyAoYmFyYmVyIHNob3AvIGhhaXJzdHlsaXN0KQ!5e0!3m2!1sen!2sus!4v1769626106187!5m2!1sen!2sus" 
                                 width="100%" 
                                 height="100%" 
                                 style="border:0;" 
                                 allowfullscreen="" 
-                                loading="lazy">
+                                loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade">
                             </iframe>
                         </div>
                     </div>
@@ -687,19 +747,55 @@
             }
         }
 
-        // Carousel Logic
+        // --- CAROUSEL LOGIC ---
         let currentSlide = 0;
         const slides = document.querySelectorAll('.carousel-slide');
+        const prevBtn = document.getElementById('carousel-prev');
+        const nextBtn = document.getElementById('carousel-next');
+        const timerBar = document.getElementById('carousel-timer-bar');
         
-        function nextSlide() {
+        const SLIDE_DURATION = 4000; // 4 seconds
+        let startTime;
+        let animationFrame;
+
+        function updateSlide(direction = 'next') {
             slides[currentSlide].classList.remove('active');
-            currentSlide = (currentSlide + 1) % slides.length;
+            
+            if (direction === 'next') {
+                currentSlide = (currentSlide + 1) % slides.length;
+            } else {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            }
+            
             slides[currentSlide].classList.add('active');
+            resetTimer();
         }
 
+        function resetTimer() {
+            cancelAnimationFrame(animationFrame);
+            startTime = Date.now();
+            animateTimer();
+        }
+
+        function animateTimer() {
+            const now = Date.now();
+            const elapsed = now - startTime;
+            const progress = Math.min((elapsed / SLIDE_DURATION) * 100, 100);
+            
+            timerBar.style.width = `${progress}%`;
+            
+            if (progress < 100) {
+                animationFrame = requestAnimationFrame(animateTimer);
+            } else {
+                updateSlide('next');
+            }
+        }
+
+        nextBtn.addEventListener('click', () => updateSlide('next'));
+        prevBtn.addEventListener('click', () => updateSlide('prev'));
+
         window.onload = () => {
-            // Start Carousel
-            setInterval(nextSlide, 4000);
+            resetTimer();
 
             const tl = gsap.timeline();
             tl.from(".hero-nav-pill", { y: -15, opacity: 0, duration: 0.8, delay: 0.3, ease: "power3.out" });
