@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLANTDEFUSE | Tactical Apparel</title>
+    <!-- GSAP & Plugins -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ffffff;
+            --bg: #050505;
+            --accent: #ff3e3e; /* Bomb LED Red */
+            --gray: #1a1a1a;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--primary);
+            font-family: 'Space+Grotesk', sans-serif;
+            overflow-x: hidden;
+            cursor: crosshair;
+        }
+
+        .heading-font {
+            font-family: 'Syncopate', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+
+        /* Hero Background GIF Container */
+        .hero-bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            object-fit: cover;
+            opacity: 0.4; /* Adjusted for legibility */
+            pointer-events: none;
+        }
+
+        .hero-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, var(--bg) 90%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Tactical HUD Elements */
+        .hud-border {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .hud-corner::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            width: 10px;
+            height: 10px;
+            border-top: 2px solid white;
+            border-left: 2px solid white;
+        }
+
+        /* Scanline Effect */
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 5;
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba(255, 255, 255, 0.02) 50%, rgba(0, 0, 0, 0) 100%);
+            opacity: 0.1;
+            position: fixed;
+            pointer-events: none;
+        }
+
+        .noise {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .glitch-hover:hover {
+            text-shadow: 2px 0 var(--accent), -2px 0 #00ffff;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        .success-message {
+            display: none;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: #333; }
+
+        .logo-container {
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.1));
+        }
+
+        .text-outline {
+            -webkit-text-stroke: 1px white;
+            color: transparent;
+        }
+
+        .social-link {
+            transition: all 0.3s ease;
+        }
+        .social-link:hover {
+            color: white;
+            opacity: 1;
+            letter-spacing: 0.5em;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-between p-6 md:p-12 selection:bg-white selection:text-black">
+    
+    <div class="noise"></div>
+    <div class="scanline" id="scanline"></div>
+
+    <!-- Background Media -->
+    <img src="https://media1.tenor.com/m/cv9WfZ175CsAAAAd/cs2-end-of-watch.gif" alt="CS2 Background" class="hero-bg-video">
+    <div class="hero-overlay"></div>
+
+    <!-- Background Branding Elements -->
+    <div class="fixed inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none select-none z-[2]">
+        <h1 class="text-[20vw] font-bold heading-font">PLANT</h1>
+    </div>
+
+    <!-- Header -->
+    <header class="w-full flex justify-between items-start z-30">
+        <div class="flex flex-col logo-container">
+            <img src="https://i.imgur.com/TBMtmgX.png" alt="PLANTDEFUSE" class="h-16 w-auto mb-2 object-contain block" id="logo">
+            <div class="text-[10px] tracking-[0.3em] opacity-50 uppercase font-bold">Protocol: Wearable Ordinance</div>
+        </div>
+        <div class="text-right hidden md:block">
+            <div class="text-[10px] opacity-40 uppercase mb-1">Current Sector</div>
+            <div class="text-xs font-mono tracking-tighter uppercase" id="location-stamp">DE_DUST2 // 40.7128° N, 74.0060° W</div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="relative z-20 w-full max-w-4xl flex flex-col items-center text-center py-20">
+        <div class="mb-4 hud-border px-4 py-1 inline-block opacity-0" id="status-tag">
+            <span class="text-[10px] tracking-widest uppercase flex items-center">
+                <span class="w-2 h-2 bg-red-600 rounded-full mr-2 animate-pulse"></span>
+                System Status: Online
+            </span>
+        </div>
+
+        <h1 class="heading-font text-5xl md:text-8xl font-bold mb-6 overflow-hidden">
+            <span class="inline-block" id="hero-title">PLANT<span class="text-outline italic">DEFUSE</span></span>
+        </h1>
+
+        <p class="text-lg md:text-xl max-w-xl opacity-80 font-light mb-12 leading-relaxed drop-shadow-lg" id="hero-sub">
+            The bomb has been planted. Precision-crafted silhouettes featuring legendary skins. Dropping soon.
+        </p>
+
+        <!-- Waitlist Form -->
+        <div class="w-full max-w-md opacity-0" id="form-container">
+            <div class="hud-border hud-corner p-1 flex bg-black/60 backdrop-blur-md group focus-within:border-white transition-colors">
+                <input type="email" id="email-input" placeholder="ENTER_EMAIL_FOR_INTEL" 
+                       class="bg-transparent border-none outline-none flex-grow p-4 text-white uppercase tracking-widest text-sm">
+                <button id="submit-btn" class="bg-white text-black px-8 py-4 font-bold heading-font text-xs hover:bg-red-600 hover:text-white transition-all duration-300">
+                    JOIN_QUEUE
+                </button>
+            </div>
+            
+            <div id="feedback" class="mt-4 text-[10px] tracking-widest uppercase h-4"></div>
+
+            <div id="success-ui" class="success-message mt-4">
+                <div class="text-green-500 font-mono text-sm uppercase">Access Granted. Intel will be transmitted shortly.</div>
+            </div>
+        </div>
+
+        <!-- Timer / HUD elements -->
+        <div class="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 opacity-0" id="stats">
+            <div class="text-center">
+                <div class="text-[10px] opacity-60 uppercase mb-2">Weapon Type</div>
+                <div class="text-sm font-bold">CLASSIFIED</div>
+            </div>
+            <div class="text-center">
+                <div class="text-[10px] opacity-60 uppercase mb-2">Drop Phase</div>
+                <div class="text-sm font-bold">01 / ALPHA</div>
+            </div>
+            <div class="text-center">
+                <div class="text-[10px] opacity-60 uppercase mb-2">Encryption</div>
+                <div class="text-sm font-bold text-red-600">ACTIVE</div>
+            </div>
+            <div class="text-center">
+                <div class="text-[10px] opacity-60 uppercase mb-2">Queue Count</div>
+                <div class="text-sm font-bold tabular-nums" id="counter">1,337</div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full flex flex-col md:flex-row justify-between items-center z-20 gap-6 opacity-0" id="footer">
+        <div class="flex gap-8 text-[10px] tracking-[0.4em] uppercase font-bold opacity-60">
+            <a href="https://www.instagram.com/plantdefuse/" target="_blank" class="social-link">Instagram</a>
+            <a href="https://www.tiktok.com/@plantdefuse" target="_blank" class="social-link">TikTok</a>
+            <a href="#" class="social-link">Twitter</a>
+            <a href="#" class="social-link">Discord</a>
+        </div>
+        <div class="text-[9px] opacity-30 font-mono tracking-tighter">
+            © 2024 PLANTDEFUSE OPERATIONS. ALL RIGHTS RESERVED.
+        </div>
+    </footer>
+
+    <script>
+        // Initial Animations
+        window.addEventListener('DOMContentLoaded', () => {
+            const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+
+            tl.to("#scanline", { 
+                y: "100vh", 
+                duration: 4, 
+                repeat: -1, 
+                ease: "none" 
+            });
+
+            tl.from("#logo", { y: -20, opacity: 0, duration: 1 }, 0.5)
+              .from("#status-tag", { scaleX: 0, opacity: 0, duration: 1 }, "-=0.5")
+              .from("#hero-title", { y: 100, opacity: 0, duration: 1.5 }, "-=0.8")
+              .from("#hero-sub", { y: 20, opacity: 0, duration: 1 }, "-=1")
+              .to("#form-container", { opacity: 1, y: 0, duration: 1 }, "-=0.5")
+              .to("#stats", { opacity: 1, duration: 1 }, "-=0.5")
+              .to("#footer", { opacity: 1, duration: 1 }, "-=1");
+
+            // Counter animation
+            const counter = { value: 1337 };
+            gsap.to(counter, {
+                value: 1542,
+                duration: 5,
+                repeat: -1,
+                yoyo: true,
+                onUpdate: () => {
+                    const el = document.getElementById('counter');
+                    if(el) el.innerText = Math.floor(counter.value).toLocaleString();
+                }
+            });
+
+            // Form Logic
+            const submitBtn = document.getElementById('submit-btn');
+            const emailInput = document.getElementById('email-input');
+            const feedback = document.getElementById('feedback');
+            const successUi = document.getElementById('success-ui');
+
+            if (submitBtn) {
+                submitBtn.addEventListener('click', () => {
+                    const email = emailInput.value;
+                    if (!email || !email.includes('@')) {
+                        feedback.innerText = "ERROR: INVALID_TRANSMISSION_ADDRESS";
+                        feedback.classList.add('text-red-500');
+                        gsap.to("#form-container", { x: 10, duration: 0.1, repeat: 5, yoyo: true });
+                        return;
+                    }
+
+                    submitBtn.innerText = "UPLOADING...";
+                    submitBtn.disabled = true;
+
+                    setTimeout(() => {
+                        gsap.to("#form-container > div", { opacity: 0, height: 0, duration: 0.5 });
+                        feedback.style.display = 'none';
+                        successUi.style.display = 'block';
+                        gsap.from(successUi, { opacity: 0, y: 10, duration: 1 });
+                    }, 1500);
+                });
+            }
+
+            // Cursor parallax
+            document.addEventListener('mousemove', (e) => {
+                const x = (e.clientX / window.innerWidth - 0.5) * 20;
+                const y = (e.clientY / window.innerHeight - 0.5) * 20;
+                gsap.to(".fixed.inset-0", { x: x, y: y, duration: 2, ease: "power2.out" });
+                gsap.to(".hero-bg-video", { x: x * -0.5, y: y * -0.5, duration: 2, ease: "power2.out" });
+            });
+        });
+    </script>
+</body>
+</html>
